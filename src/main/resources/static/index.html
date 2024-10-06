@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book a Cab</title>
+</head>
+<body>
+    <h1>Book a Cab</h1>
+    <form id="booking-form">
+        <label for="id">Booking ID:</label>
+        <input type="text" id="id" name="id" required><br><br>
+        <label for="passengerId">Passenger ID:</label>
+        <input type="text" id="passengerId" name="passengerId" required><br><br>
+        <label for="pickupLocation">Pickup Location:</label>
+        <input type="text" id="pickupLocation" name="pickupLocation" required><br><br>
+        <label for="dropoffLocation">Dropoff Location:</label>
+        <input type="text" id="dropoffLocation" name="dropoffLocation" required><br><br>
+        <button type="submit">Book</button>
+    </form>
+
+    <script>
+        document.getElementById('booking-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('http://localhost:8081/api/booking/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+            .then(response => response.json())
+            .then(data => alert('Booking Created: ' + JSON.stringify(data)))
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
